@@ -1,0 +1,282 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+       "apiManagementServiceName": {
+        "type": "string",
+        "defaultValue": "apim-ads-cus-entbusops-dev-001",
+        "metadata": {
+          "description": "Name of the API Management service."
+        }
+      },
+      "publisherEmail": {
+        "type": "string",
+        "defaultValue": "CardServicesCloudInfrastructure@alliancedata.com",
+        "minLength": 1,
+        "metadata": {
+          "description": "The email address of the owner of the service"
+        }
+      },
+      "publisherName": {
+        "type": "string",
+        "defaultValue": "Alliance Data",
+        "minLength": 1,
+        "metadata": {
+          "description": "The name of the owner of the service"
+        }
+      },
+      "sku": {
+        "type": "string",
+        "allowedValues": [
+          "Developer",
+          "Premium"
+        ],
+        "defaultValue": "Premium",
+        "metadata": {
+          "description": "The pricing tier of this API Management service"
+        }
+      },
+      "skuCount": {
+        "type": "int",
+        "defaultValue": 2,
+        "metadata": {
+          "description": "The instance size of this API Management service.This should be in multiple of zones getting deployed."
+        }
+      },
+      
+      "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+          "description": "Azure region where the resources will be deployed"
+        }
+      },
+       "ApplicationInsightsInstanceName": {
+        "type": "string",
+        "defaultValue": "apin-ads-cus-entbusops-dev-apim-poc-001",
+        "metadata": {
+          "description": "app insight name"
+        }
+      },
+       "InstrumentationKey": {
+        "type": "string",
+        "defaultValue": "61574109-0703-4da9-b59a-a1adee4de317",
+        "metadata": {
+          "description": "app insight InstrumentationKey "
+        }
+      },
+      "additionalLocations": {
+        "type": "array",
+         "defaultValue": [
+          "eastus2"
+        ],
+        "metadata": {
+          "description": "Additional Locations to setup the ApiManagement gateway."
+        }
+      },
+      "availabilityZones": {
+        "type": "array",
+         "defaultValue": [
+          "1",
+          "2"
+        ],
+        "metadata": {
+          "description": "Zone numbers e.g. 1,2,3."
+        }
+      },
+      "primarySubnetId": {
+        "type": "string",
+        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-cus-entbusops-apim-int-dev-001/subnets/sn-ads-cus-entbusops-apim-int-dev-001",
+        "metadata": {
+          "description": "Virtual Network name"
+        }
+      },
+      "secondarySubnetId": {
+        "type": "string",
+        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-eus2-entbusops-apim-poc-int-dev-001/subnets/sn-ads-eus2-entbusops-apim-poc-int-dev-001",
+        "metadata": {
+          "description": "Virtual Network name"
+        }
+      },
+      "primaryPublicIpId": {
+        "type": "string",
+        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiregionapimpublicip",
+        "metadata": {
+          "description": "Name for the first Public IP used to access the api management service."
+        }
+      },
+       "secondaryPublicIpId": {
+        "type": "string",
+         "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiapimeus2ip",
+        "metadata": {
+          "description": "Name for the second Public IP used to access the api management service."
+        }
+      },       
+        "keyVaultName": {
+            "type": "string",
+            "defaultValue":"kvcusentbusopsdevpoc1",
+            "metadata": {
+                "description": "Name of the vault"
+            }
+        },
+       "proxyHostName1": {
+        "type": "string",
+         "defaultValue": "apim-ads-cus-entbusops-dev-001.apim.alldata.net",
+        "metadata": {
+          "description": "Central US proxy host name."
+        }
+      }
+      , 
+       "proxyKeyVaultResourceId1": {
+        "type": "string",
+         "defaultValue":  "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-ads-cus-entbusops-dev-001-apim-alldata-net",
+        "metadata": {
+          "description": "Keyvault resource id for management host name."
+        }
+      },
+       "proxyHostName2": {
+        "type": "string",
+         "defaultValue": "apim-ads-eus2-entbusops-dev-poc-001.apim.alldata.net",
+        "metadata": {
+          "description": "East us2 Proxy host name."
+        }
+      },
+      "proxyKeyVaultResourceId2": {
+        "type": "string",
+         "defaultValue": "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-tst-cus-entbusops-dev-001-apim-alldata-net",
+        "metadata": {
+          "description": "Keyvault resource id for management host name."
+        }
+      }
+       , 
+       "http2protocol": {
+        "type": "bool",
+         "defaultValue": true,
+        "metadata": {
+          "description": "http2 protocol support"
+        }
+      }
+      
+      
+    },
+   "variables": {
+    },
+    "resources": [
+      
+        {
+          "type": "Microsoft.ApiManagement/service/loggers",
+          "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('ApplicationInsightsInstanceName'))]",
+          "apiVersion": "2021-01-01-preview",
+          "dependsOn":["[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"],
+          "properties": {
+            "loggerType": "applicationInsights",
+            "description": "Logger resources to APIM",
+            "credentials": {
+                "instrumentationKey": "[parameters('InstrumentationKey')]"
+            }
+          }
+      },
+        
+      {
+        "apiVersion": "2021-08-01",
+        "name": "[parameters('apiManagementServiceName')]",
+        "type": "Microsoft.ApiManagement/service",
+        "location": "[parameters('location')]",
+                
+        "sku": {
+          "name": "[parameters('sku')]",
+          "capacity": "[parameters('skuCount')]"
+        },
+        "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
+        "properties": {
+           "copy": [
+            {
+              "name": "additionalLocations",
+              "count": "[length(parameters('additionalLocations'))]",
+              "input": {
+                "location": "[parameters('additionalLocations')[copyIndex('additionalLocations')]]",
+                "sku": {
+                  "name": "Premium",
+                  "capacity": "[parameters('skuCount')]"
+                },
+                "identity": {
+                "type": "SystemAssigned"
+               },
+                 "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
+                 "publicIpAddressId":  "[parameters('secondaryPublicIPId')]"   ,
+                  "virtualNetworkConfiguration": {
+                    "subnetResourceId":  "[parameters('secondarySubnetId')]"                    
+                  }
+              }
+            }
+          ],
+          "publisherEmail": "[parameters('publisherEmail')]",
+          "publisherName": "[parameters('publisherName')]",
+          
+          "virtualNetworkType": "Internal",
+          "publicIpAddressId": "[parameters('primaryPublicIPId')]" ,
+          "virtualNetworkConfiguration": {
+            "subnetResourceId": "[parameters('primarySubnetId')]"
+          },
+          "hostnameConfigurations": [
+          {
+            "type": "Proxy",
+            "hostName": "[parameters('proxyHostName1')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
+          },
+          {
+            "type": "Proxy",
+            "hostName": "[parameters('proxyHostName2')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId2')]"
+          },
+          {
+            "type": "Scm",
+            "hostName": "[parameters('proxyHostName1')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
+          },
+          {
+            "type": "DeveloperPortal",
+            "hostName": "[parameters('proxyHostName1')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
+          },
+          {
+            "type": "Management",
+            "hostName": "[parameters('proxyHostName1')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
+          },
+          {
+            "type": "Portal",
+            "hostName": "[parameters('proxyHostName1')]",
+            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
+          }
+        ],
+         
+          "customProperties": {
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_GCM_SHA256": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA256": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA":false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": false,
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "[parameters('http2protocol')]"
+
+            
+            
+          }
+        }
+      }
+     
+    
+      
+    ]
+  }
