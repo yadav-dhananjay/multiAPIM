@@ -149,6 +149,34 @@
         }
       }
        , 
+	    "scmHostName": {
+        "type": "string",
+         "defaultValue": "apim-ads-cus-entbusops-dev-001-scm.apim.alldata.net",
+        "metadata": {
+          "description": "East us2 Proxy host name."
+        }
+      },
+	   "devPortalHostName": {
+        "type": "string",
+         "defaultValue": "apim-ads-cus-entbusops-dev-001-developer.apim.alldata.net",
+        "metadata": {
+          "description": "East us2 Proxy host name."
+        }
+      },
+	   "mgmtHostName": {
+        "type": "string",
+         "defaultValue": "apim-ads-cus-entbusops-dev-001-management.apim.alldata.net",
+        "metadata": {
+          "description": "East us2 Proxy host name."
+        }
+      },
+	   "portalHostName": {
+        "type": "string",
+         "defaultValue": "apim-ads-cus-entbusops-dev-001-portal.apim.alldata.net",
+        "metadata": {
+          "description": "East us2 Proxy host name."
+        }
+      },
        "http2protocol": {
         "type": "bool",
          "defaultValue": true,
@@ -231,22 +259,22 @@
           },
           {
             "type": "Scm",
-            "hostName": "[parameters('proxyHostName1')]",
+            "hostName": "[parameters('scmHostName')]",
             "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
           },
           {
             "type": "DeveloperPortal",
-            "hostName": "[parameters('proxyHostName1')]",
+            "hostName": "[parameters('devPortalHostName')]",
             "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
           },
           {
             "type": "Management",
-            "hostName": "[parameters('proxyHostName1')]",
+            "hostName": "[parameters('mgmtHostName')]",
             "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
           },
           {
             "type": "Portal",
-            "hostName": "[parameters('proxyHostName1')]",
+            "hostName": "[parameters('portalHostName')]",
             "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
           }
         ],
