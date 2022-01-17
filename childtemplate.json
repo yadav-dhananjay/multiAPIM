@@ -210,7 +210,9 @@
         "name": "[parameters('apiManagementServiceName')]",
         "type": "Microsoft.ApiManagement/service",
         "location": "[parameters('location')]",
-                
+         "identity": {
+                "type": "SystemAssigned"
+               } ,      
         "sku": {
           "name": "[parameters('sku')]",
           "capacity": "[parameters('skuCount')]"
@@ -227,9 +229,6 @@
                   "name": "Premium",
                   "capacity": "[parameters('skuCount')]"
                 },
-                "identity": {
-                "type": "SystemAssigned"
-               },
                  "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
                  "publicIpAddressId":  "[parameters('secondaryPublicIPId')]"   ,
                   "virtualNetworkConfiguration": {
