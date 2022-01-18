@@ -304,7 +304,7 @@
         }
       },
        {
-            "type": "Microsoft.ApiManagement/service/apis/policies",
+            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
             "name": "setDefaultPolicy",
             "apiVersion": "2021-08-01",
              "properties": {
