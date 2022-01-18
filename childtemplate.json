@@ -37,8 +37,8 @@
         }
       },
       "skuCount": {
-        "type": "int",
-        "defaultValue": 2,
+        "type": "string",
+        "defaultValue": "2",
         "metadata": {
           "description": "The instance size of this API Management service.This should be in multiple of zones getting deployed."
         }
@@ -66,10 +66,8 @@
         }
       },
       "additionalLocations": {
-        "type": "array",
-         "defaultValue": [
-          "eastus2"
-        ],
+        "type": "string",
+         "defaultValue": "eastus2" ,
         "metadata": {
           "description": "Additional Locations to setup the ApiManagement gateway."
         }
@@ -178,8 +176,8 @@
         }
       },
        "http2protocol": {
-        "type": "bool",
-         "defaultValue": true,
+        "type": "string",
+         "defaultValue": "true",
         "metadata": {
           "description": "http2 protocol support"
         }
@@ -216,19 +214,19 @@
                } ,      
         "sku": {
           "name": "[parameters('sku')]",
-          "capacity": "[parameters('skuCount')]"
+          "capacity": "[int(parameters('skuCount'))]"
         },
         "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
         "properties": {
            "copy": [
             {
               "name": "additionalLocations",
-              "count": "[length(parameters('additionalLocations'))]",
+              "count": "[length(array(parameters('additionalLocations')))]",
               "input": {
-                "location": "[parameters('additionalLocations')[copyIndex('additionalLocations')]]",
+                "location": "[array(parameters('additionalLocations'))[copyIndex('additionalLocations')]]",
                 "sku": {
                   "name": "Premium",
-                  "capacity": "[parameters('skuCount')]"
+                  "capacity": "[int(parameters('skuCount'))]"
                 },
                  "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
                  "publicIpAddressId":  "[parameters('secondaryPublicIPId')]"   ,
@@ -296,7 +294,7 @@
             "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": false,
             "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": false,
             "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "[parameters('http2protocol')]"
+            "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "[bool(parameters('http2protocol'))]"
 
             
             
