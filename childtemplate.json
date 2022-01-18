@@ -304,7 +304,7 @@
         }
       },
        {
-            "type": "Microsoft.ApiManagement/service/apis/operations/policies",
+            "type": "Microsoft.ApiManagement/service/policies",
 	    "name": "[concat(parameters('apiManagementServiceName'),'/Policy')]",
             "apiVersion": "2021-08-01",
 	    "dependsOn":["[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"],
