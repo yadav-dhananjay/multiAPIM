@@ -203,15 +203,15 @@
         }
       },
  "productSubscriptionRequired": {
-        "type": "string",
-         "defaultValue": "true",
+        "type": "bool",
+         "defaultValue": true,
         "metadata": {
           "description": "Product subscription reguired or not."
         }
       },
  "approvalRequired": {
-        "type": "string",
-         "defaultValue": "true",
+        "type": "bool",
+         "defaultValue": true,
         "metadata": {
           "description": "Is approval required"
         }
@@ -368,8 +368,8 @@
             ],
            "properties": {
                 "displayName": "[parameters('productDisplayName')]",
-                "subscriptionRequired": "[bool(parameters('productSubscriptionRequired'))]",
-                "approvalRequired": "[bool(parameters('approvalRequired'))]",
+                "subscriptionRequired": "[parameters('productSubscriptionRequired')]",
+                "approvalRequired": "[parameters('approvalRequired')]",
                 "subscriptionsLimit": "[int(parameters('subscriptionsLimit'))]",
                 "state": "[parameters('productState')]"
             }
