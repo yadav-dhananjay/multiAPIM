@@ -9,6 +9,19 @@
           "description": "Name of the API Management service."
         }
       },
+    "tags":{
+        "type": "object",
+         "defaultValue":{
+        "AppID": "TBD",
+        "AppName": "Enterprise Azure Api Management",
+        "AppOwner": "Tom Pugh",
+        "BillTo": "VULCAN",
+        "DataClassification": "TBD",
+        "Dept": "IT",
+        "Environment": "UAT",
+        "Role": "TBD",
+        "SupportGroup": "TBD"
+      }},
       "publisherEmail": {
         "type": "string",
         "defaultValue": "CardServicesCloudInfrastructure@alliancedata.com",
@@ -243,6 +256,7 @@
         "name": "[parameters('apiManagementServiceName')]",
         "type": "Microsoft.ApiManagement/service",
         "location": "[parameters('location')]",
+	"tags":   "[array(parameters('tags'))]"     
          "identity": {
                 "type": "SystemAssigned"
                } ,      
