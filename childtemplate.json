@@ -2,379 +2,371 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-       "apiManagementServiceName": {
-        "type": "string",
-        "defaultValue": "apim-ads-cus-entbusops-dev-001",
-        "metadata": {
-          "description": "Name of the API Management service."
-        }
-      },
-    "tags":{
-        "type": "object",
-         "defaultValue":{
-        "AppID": "TBD",
-        "AppName": "Enterprise Azure Api Management",
-        "AppOwner": "Tom Pugh",
-        "BillTo": "VULCAN",
-        "DataClassification": "TBD",
-        "Dept": "IT",
-        "Environment": "UAT",
-        "Role": "TBD",
-        "SupportGroup": "TBD"
-      }},
-      "publisherEmail": {
-        "type": "string",
-        "defaultValue": "CardServicesCloudInfrastructure@alliancedata.com",
-        "minLength": 1,
-        "metadata": {
-          "description": "The email address of the owner of the service"
-        }
-      },
-      "publisherName": {
-        "type": "string",
-        "defaultValue": "Alliance Data",
-        "minLength": 1,
-        "metadata": {
-          "description": "The name of the owner of the service"
-        }
-      },
-      "sku": {
-        "type": "string",
-        "allowedValues": [
-          "Developer",
-          "Premium"
-        ],
-        "defaultValue": "Premium",
-        "metadata": {
-          "description": "The pricing tier of this API Management service"
-        }
-      },
-      "skuCount": {
-        "type": "string",
-        "defaultValue": "2",
-        "metadata": {
-          "description": "The instance size of this API Management service.This should be in multiple of zones getting deployed."
-        }
-      },
-      
-      "location": {
-        "type": "string",
-        "defaultValue": "[resourceGroup().location]",
-        "metadata": {
-          "description": "Azure region where the resources will be deployed"
-        }
-      },
-       "ApplicationInsightsInstanceName": {
-        "type": "string",
-        "defaultValue": "apin-ads-cus-entbusops-dev-apim-poc-001",
-        "metadata": {
-          "description": "app insight name"
-        }
-      },
-       "InstrumentationKey": {
-        "type": "string",
-        "defaultValue": "61574109-0703-4da9-b59a-a1adee4de317",
-        "metadata": {
-          "description": "app insight InstrumentationKey "
-        }
-      },
-      "additionalLocations": {
-        "type": "string",
-         "defaultValue": "eastus2" ,
-        "metadata": {
-          "description": "Additional Locations to setup the ApiManagement gateway."
-        }
-      },
-      "availabilityZones": {
-        "type": "array",
-         "defaultValue": [
-          "1",
-          "2"
-        ],
-        "metadata": {
-          "description": "Zone numbers e.g. 1,2,3."
-        }
-      },
-      "primarySubnetId": {
-        "type": "string",
-        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-cus-entbusops-apim-int-dev-001/subnets/sn-ads-cus-entbusops-apim-int-dev-001",
-        "metadata": {
-          "description": "Virtual Network name"
-        }
-      },
-      "secondarySubnetId": {
-        "type": "string",
-        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-eus2-entbusops-apim-poc-int-dev-001/subnets/sn-ads-eus2-entbusops-apim-poc-int-dev-001",
-        "metadata": {
-          "description": "Virtual Network name"
-        }
-      },
-      "primaryPublicIpId": {
-        "type": "string",
-        "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiregionapimpublicip",
-        "metadata": {
-          "description": "Name for the first Public IP used to access the api management service."
-        }
-      },
-       "secondaryPublicIpId": {
-        "type": "string",
-         "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiapimeus2ip",
-        "metadata": {
-          "description": "Name for the second Public IP used to access the api management service."
-        }
-      },       
+        "apiManagementServiceName": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001",
+            "metadata": {
+                "description": "Name of the API Management service."
+            }
+        },
+        "tags": {
+            "type": "object",
+            "defaultValue": {
+                "AppID": "TBD",
+                "AppName": "Enterprise Azure Api Management",
+                "AppOwner": "Tom Pugh",
+                "BillTo": "VULCAN",
+                "DataClassification": "TBD",
+                "Dept": "IT",
+                "Environment": "UAT",
+                "Role": "TBD",
+                "SupportGroup": "TBD"
+            }
+        },
+        "publisherEmail": {
+            "type": "string",
+            "defaultValue": "CardServicesCloudInfrastructure@alliancedata.com",
+            "minLength": 1,
+            "metadata": {
+                "description": "The email address of the owner of the service"
+            }
+        },
+        "publisherName": {
+            "type": "string",
+            "defaultValue": "Alliance Data",
+            "minLength": 1,
+            "metadata": {
+                "description": "The name of the owner of the service"
+            }
+        },
+        "sku": {
+            "type": "string",
+            "allowedValues": [
+                "Developer",
+                "Premium"
+            ],
+            "defaultValue": "Premium",
+            "metadata": {
+                "description": "The pricing tier of this API Management service"
+            }
+        },
+        "skuCount": {
+            "type": "int",
+            "defaultValue": 2,
+            "metadata": {
+                "description": "The instance size of this API Management service.This should be in multiple of zones getting deployed."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Azure region where the resources will be deployed"
+            }
+        },
+        "ApplicationInsightsInstanceName": {
+            "type": "string",
+            "defaultValue": "apin-ads-cus-entbusops-dev-apim-poc-001",
+            "metadata": {
+                "description": "app insight name"
+            }
+        },
+        "InstrumentationKey": {
+            "type": "string",
+            "defaultValue": "61574109-0703-4da9-b59a-a1adee4de317",
+            "metadata": {
+                "description": "app insight InstrumentationKey "
+            }
+        },
+        "additionalLocations": {
+            "type": "string",
+            "defaultValue": "eastus2",
+            "metadata": {
+                "description": "Additional Locations to setup the ApiManagement gateway."
+            }
+        },
+        "availabilityZones": {
+            "type": "array",
+            "defaultValue": [
+                "1",
+                "2"
+            ],
+            "metadata": {
+                "description": "Zone numbers e.g. 1,2,3."
+            }
+        },
+        "primarySubnetId": {
+            "type": "string",
+            "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-cus-entbusops-apim-int-dev-001/subnets/sn-ads-cus-entbusops-apim-int-dev-001",
+            "metadata": {
+                "description": "Virtual Network name"
+            }
+        },
+        "secondarySubnetId": {
+            "type": "string",
+            "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/virtualNetworks/vnet-ads-eus2-entbusops-apim-poc-int-dev-001/subnets/sn-ads-eus2-entbusops-apim-poc-int-dev-001",
+            "metadata": {
+                "description": "Virtual Network name"
+            }
+        },
+        "primaryPublicIpId": {
+            "type": "string",
+            "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiregionapimpublicip",
+            "metadata": {
+                "description": "Name for the first Public IP used to access the api management service."
+            }
+        },
+        "secondaryPublicIpId": {
+            "type": "string",
+            "defaultValue": "/subscriptions/1fd4eaa2-e0f5-4e47-a395-12bad3a0cd73/resourceGroups/rg-ads-cus-entbusops-dev-apim-001/providers/Microsoft.Network/publicIPAddresses/multiapimeus2ip",
+            "metadata": {
+                "description": "Name for the second Public IP used to access the api management service."
+            }
+        },
         "keyVaultName": {
             "type": "string",
-            "defaultValue":"kvcusentbusopsdevpoc1",
+            "defaultValue": "kvcusentbusopsdevpoc1",
             "metadata": {
                 "description": "Name of the vault"
             }
         },
-       "proxyHostName1": {
-        "type": "string",
-         "defaultValue": "apim-ads-cus-entbusops-dev-001.apim.alldata.net",
-        "metadata": {
-          "description": "Central US proxy host name."
-        }
-      }
-      , 
-       "proxyKeyVaultResourceId1": {
-        "type": "string",
-         "defaultValue":  "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-ads-cus-entbusops-dev-001-apim-alldata-net",
-        "metadata": {
-          "description": "Keyvault resource id for management host name."
-        }
-      },
-       "proxyHostName2": {
-        "type": "string",
-         "defaultValue": "apim-ads-eus2-entbusops-dev-poc-001.apim.alldata.net",
-        "metadata": {
-          "description": "East us2 Proxy host name."
-        }
-      },
-      "proxyKeyVaultResourceId2": {
-        "type": "string",
-         "defaultValue": "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-tst-cus-entbusops-dev-001-apim-alldata-net",
-        "metadata": {
-          "description": "Keyvault resource id for management host name."
-        }
-      }
-       , 
-	    "scmHostName": {
-        "type": "string",
-         "defaultValue": "apim-ads-cus-entbusops-dev-001-scm.apim.alldata.net",
-        "metadata": {
-          "description": "East us2 Proxy host name."
-        }
-      },
-	   "devPortalHostName": {
-        "type": "string",
-         "defaultValue": "apim-ads-cus-entbusops-dev-001-developer.apim.alldata.net",
-        "metadata": {
-          "description": "East us2 Proxy host name."
-        }
-      },
-	   "mgmtHostName": {
-        "type": "string",
-         "defaultValue": "apim-ads-cus-entbusops-dev-001-management.apim.alldata.net",
-        "metadata": {
-          "description": "East us2 Proxy host name."
-        }
-      },
-	   "portalHostName": {
-        "type": "string",
-         "defaultValue": "apim-ads-cus-entbusops-dev-001-portal.apim.alldata.net",
-        "metadata": {
-          "description": "East us2 Proxy host name."
-        }
-      },
-       "http2protocol": {
-        "type": "string",
-         "defaultValue": "true",
-        "metadata": {
-          "description": "http2 protocol support"
-        }
-      },
-       "productDisplayName": {
-        "type": "string",
-         "defaultValue": "RPAFunctionApp",
-        "metadata": {
-          "description": "Product display name."
-        }
-      },
- "productSubscriptionRequired": {
-        "type": "bool",
-         "defaultValue": true,
-        "metadata": {
-          "description": "Product subscription reguired or not."
-        }
-      },
- "approvalRequired": {
-        "type": "bool",
-         "defaultValue": true,
-        "metadata": {
-          "description": "Is approval required"
-        }
-      },
- "subscriptionsLimit": {
-        "type": "string",
-         "defaultValue": "500",
-        "metadata": {
-          "description": "Product subscriptions limit"
-        }
-      },
- "productState": {
-        "type": "string",
-         "defaultValue": "published",
-        "metadata": {
-          "description": "Product state"
-        }
-      }
-      
-    },
-   "variables": {
-    },
-    "resources": [
-	    
-      
-        {
-          "type": "Microsoft.ApiManagement/service/loggers",
-          "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('ApplicationInsightsInstanceName'))]",
-          "apiVersion": "2021-01-01-preview",
-          "dependsOn":["[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"],
-          "properties": {
-            "loggerType": "applicationInsights",
-            "description": "Logger resources to APIM",
-            "credentials": {
-                "instrumentationKey": "[parameters('InstrumentationKey')]"
+        "proxyHostName1": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001.apim.alldata.net",
+            "metadata": {
+                "description": "Central US proxy host name."
             }
-          }
-      },
-        
-      {
-        "apiVersion": "2021-08-01",
-        "name": "[parameters('apiManagementServiceName')]",
-        "type": "Microsoft.ApiManagement/service",
-        "location": "[parameters('location')]",
-	"tags":   "[parameters('tags')]" ,    
-         "identity": {
-                "type": "SystemAssigned"
-               } ,      
-        "sku": {
-          "name": "[parameters('sku')]",
-          "capacity": "[int(parameters('skuCount'))]"
         },
-        "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
-        "properties": {
-           "copy": [
-            {
-              "name": "additionalLocations",
-              "count": "[length(array(parameters('additionalLocations')))]",
-              "input": {
-                "location": "[array(parameters('additionalLocations'))[copyIndex('additionalLocations')]]",
-                "sku": {
-                  "name": "Premium",
-                  "capacity": "[int(parameters('skuCount'))]"
-                },
-                 "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
-                 "publicIpAddressId":  "[parameters('secondaryPublicIPId')]"   ,
-                  "virtualNetworkConfiguration": {
-                    "subnetResourceId":  "[parameters('secondarySubnetId')]"                    
-                  }
-              }
+        "proxyKeyVaultResourceId1": {
+            "type": "string",
+            "defaultValue": "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-ads-cus-entbusops-dev-001-apim-alldata-net",
+            "metadata": {
+                "description": "Keyvault resource id for management host name."
             }
-          ],
-          "publisherEmail": "[parameters('publisherEmail')]",
-          "publisherName": "[parameters('publisherName')]",
-          
-          "virtualNetworkType": "Internal",
-          "publicIpAddressId": "[parameters('primaryPublicIPId')]" ,
-          "virtualNetworkConfiguration": {
-            "subnetResourceId": "[parameters('primarySubnetId')]"
-          },
-          "hostnameConfigurations": [
-          {
-            "type": "Proxy",
-            "hostName": "[parameters('proxyHostName1')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
-          },
-          {
-            "type": "Proxy",
-            "hostName": "[parameters('proxyHostName2')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId2')]"
-          },
-          {
-            "type": "Scm",
-            "hostName": "[parameters('scmHostName')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
-          },
-          {
-            "type": "DeveloperPortal",
-            "hostName": "[parameters('devPortalHostName')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
-          },
-          {
-            "type": "Management",
-            "hostName": "[parameters('mgmtHostName')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
-          },
-          {
-            "type": "Portal",
-            "hostName": "[parameters('portalHostName')]",
-            "keyVaultId":"[parameters('proxyKeyVaultResourceId1')]"
-          }
-        ],
-         
-          "customProperties": {
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_GCM_SHA256": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA256": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA":false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": false,
-            "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "[bool(parameters('http2protocol'))]"
-
-            
-            
-          }
+        },
+        "proxyHostName2": {
+            "type": "string",
+            "defaultValue": "apim-ads-eus2-entbusops-dev-poc-001.apim.alldata.net",
+            "metadata": {
+                "description": "East us2 Proxy host name."
+            }
+        },
+        "proxyKeyVaultResourceId2": {
+            "type": "string",
+            "defaultValue": "https://kvcusentbusopsdevpoc1.vault.azure.net/secrets/apim-tst-cus-entbusops-dev-001-apim-alldata-net",
+            "metadata": {
+                "description": "Keyvault resource id for management host name."
+            }
+        },
+        "scmHostName": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001-scm.apim.alldata.net",
+            "metadata": {
+                "description": "East us2 Proxy host name."
+            }
+        },
+        "devPortalHostName": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001-developer.apim.alldata.net",
+            "metadata": {
+                "description": "East us2 Proxy host name."
+            }
+        },
+        "mgmtHostName": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001-management.apim.alldata.net",
+            "metadata": {
+                "description": "East us2 Proxy host name."
+            }
+        },
+        "portalHostName": {
+            "type": "string",
+            "defaultValue": "apim-ads-cus-entbusops-dev-001-portal.apim.alldata.net",
+            "metadata": {
+                "description": "East us2 Proxy host name."
+            }
+        },
+        "http2protocol": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "http2 protocol support"
+            }
+        },
+        "productDisplayName": {
+            "type": "string",
+            "defaultValue": "RPAFunctionApp",
+            "metadata": {
+                "description": "Product display name."
+            }
+        },
+        "productSubscriptionRequired": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Product subscription reguired or not."
+            }
+        },
+        "approvalRequired": {
+            "type": "bool",
+            "defaultValue": true,
+            "metadata": {
+                "description": "Is approval required"
+            }
+        },
+        "subscriptionsLimit": {
+            "type": "int",
+            "defaultValue": 500,
+            "metadata": {
+                "description": "Product subscriptions limit"
+            }
+        },
+        "productState": {
+            "type": "string",
+            "defaultValue": "published",
+            "metadata": {
+                "description": "Product state"
+            }
         }
-      },
-       {
-            "type": "Microsoft.ApiManagement/service/policies",
-	    "name": "[concat(parameters('apiManagementServiceName'),'/Policy')]",
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.ApiManagement/service/loggers",
+            "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('ApplicationInsightsInstanceName'))]",
+            "apiVersion": "2021-01-01-preview",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+            ],
+            "properties": {
+                "loggerType": "applicationInsights",
+                "description": "Logger resources to APIM",
+                "credentials": {
+                    "instrumentationKey": "[parameters('InstrumentationKey')]"
+                }
+            }
+        },
+        {
             "apiVersion": "2021-08-01",
-	    "dependsOn":["[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"],
+            "name": "[parameters('apiManagementServiceName')]",
+            "type": "Microsoft.ApiManagement/service",
+            "location": "[parameters('location')]",
+            "tags": "[parameters('tags')]",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "sku": {
+                "name": "[parameters('sku')]",
+                "capacity": "[parameters('skuCount')]"
+            },
+            "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
+            "properties": {
+                "copy": [
+                    {
+                        "name": "additionalLocations",
+                        "count": "[length(array(parameters('additionalLocations')))]",
+                        "input": {
+                            "location": "[array(parameters('additionalLocations'))[copyIndex('additionalLocations')]]",
+                            "sku": {
+                                "name": "Premium",
+                                "capacity": "[parameters('skuCount')]"
+                            },
+                            "zones": "[if(equals(length(parameters('availabilityZones')), 0), json('null'), parameters('availabilityZones'))]",
+                            "publicIpAddressId": "[parameters('secondaryPublicIPId')]",
+                            "virtualNetworkConfiguration": {
+                                "subnetResourceId": "[parameters('secondarySubnetId')]"
+                            }
+                        }
+                    }
+                ],
+                "publisherEmail": "[parameters('publisherEmail')]",
+                "publisherName": "[parameters('publisherName')]",
+                "virtualNetworkType": "Internal",
+                "publicIpAddressId": "[parameters('primaryPublicIPId')]",
+                "virtualNetworkConfiguration": {
+                    "subnetResourceId": "[parameters('primarySubnetId')]"
+                },
+                "hostnameConfigurations": [
+                    {
+                        "type": "Proxy",
+                        "hostName": "[parameters('proxyHostName1')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId1')]"
+                    },
+                    {
+                        "type": "Proxy",
+                        "hostName": "[parameters('proxyHostName2')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId2')]"
+                    },
+                    {
+                        "type": "Scm",
+                        "hostName": "[parameters('scmHostName')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId1')]"
+                    },
+                    {
+                        "type": "DeveloperPortal",
+                        "hostName": "[parameters('devPortalHostName')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId1')]"
+                    },
+                    {
+                        "type": "Management",
+                        "hostName": "[parameters('mgmtHostName')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId1')]"
+                    },
+                    {
+                        "type": "Portal",
+                        "hostName": "[parameters('portalHostName')]",
+                        "keyVaultId": "[parameters('proxyKeyVaultResourceId1')]"
+                    }
+                ],
+                "customProperties": {
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_GCM_SHA256": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA256": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA256": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_256_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_RSA_WITH_AES_128_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TripleDes168": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls10": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Tls11": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Protocols.Ssl30": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls10": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Tls11": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Backend.Protocols.Ssl30": false,
+                    "Microsoft.WindowsAzure.ApiManagement.Gateway.Protocols.Server.Http2": "[parameters('http2protocol')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/policies",
+            "name": "[concat(parameters('apiManagementServiceName'),'/Policy')]",
+            "apiVersion": "2021-08-01",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+            ],
             "properties": {
                 "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the &lt;inbound&gt;, &lt;outbound&gt;, &lt;backend&gt; section elements.\r\n    - Only the &lt;forward-request&gt; policy element can appear within the &lt;backend&gt; section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the &lt;inbound&gt; section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the &lt;outbound&gt; section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the &lt;base&gt; element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the &lt;base&gt; element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request follow-redirects=\"false\" />\r\n  </backend>\r\n  <outbound />\r\n  <on-error />\r\n</policies>",
                 "format": "xml"
             }
         },
-	    {
+        {
             "type": "Microsoft.ApiManagement/service/products",
             "apiVersion": "2021-08-01",
             "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('productDisplayName'))]",
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
             ],
-           "properties": {
+            "properties": {
                 "displayName": "[parameters('productDisplayName')]",
                 "subscriptionRequired": "[parameters('productSubscriptionRequired')]",
                 "approvalRequired": "[parameters('approvalRequired')]",
-                "subscriptionsLimit": "[int(parameters('subscriptionsLimit'))]",
+                "subscriptionsLimit": "[parameters('subscriptionsLimit')]",
                 "state": "[parameters('productState')]"
             }
         },
-	 {
+        {
             "type": "Microsoft.ApiManagement/service/products/groups",
             "apiVersion": "2021-08-01",
             "name": "[concat(parameters('apiManagementServiceName'), '/RPAFunctionApp/administrators')]",
@@ -383,7 +375,7 @@
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
             ]
         },
-		{
+        {
             "type": "Microsoft.ApiManagement/service/products/policies",
             "apiVersion": "2021-08-01",
             "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('productDisplayName'),'/policy')]",
@@ -395,9 +387,62 @@
                 "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <rate-limit calls=\"20\" renewal-period=\"90\" />\r\n  </inbound>\r\n</policies>",
                 "format": "xml"
             }
+        },
+        {
+            "type": "Microsoft.ApiManagement/service/diagnostics",
+            "apiVersion": "2021-08-01",
+            "name": "[concat(parameters('apiManagementServiceName'), '/applicationinsights')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]",
+                "[resourceId('Microsoft.ApiManagement/service/loggers', parameters('apiManagementServiceName'), parameters('ApplicationInsightsInstanceName'))]"
+            ],
+            "properties": {
+                "alwaysLog": "allErrors",
+                "httpCorrelationProtocol": "W3C",
+                "verbosity": "information",
+                "logClientIp": true,
+                "loggerId": "[resourceId('Microsoft.ApiManagement/service/loggers', parameters('apiManagementServiceName'), parameters('ApplicationInsightsInstanceName'))]",
+                "sampling": {
+                    "samplingType": "fixed",
+                    "percentage": 100
+                },
+                "frontend": {
+                    "request": {
+                        "headers": [
+                            "accept"
+                        ],
+                        "body": {
+                            "bytes": 8192
+                        }
+                    },
+                    "response": {
+                        "headers": [
+                            "accept"
+                        ],
+                        "body": {
+                            "bytes": 8192
+                        }
+                    }
+                },
+                "backend": {
+                    "request": {
+                        "headers": [
+                            "accept"
+                        ],
+                        "body": {
+                            "bytes": 8192
+                        }
+                    },
+                    "response": {
+                        "headers": [
+                            "accept"
+                        ],
+                        "body": {
+                            "bytes": 8192
+                        }
+                    }
+                }
+            }
         }
-     
-    
-      
     ]
-  }
+}
