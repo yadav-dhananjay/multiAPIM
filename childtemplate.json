@@ -202,14 +202,14 @@
         "metadata": {
           "description": "Is approval required"
         }
-      }
+      },
  "subscriptionsLimit": {
         "type": "string",
          "defaultValue": "500",
         "metadata": {
           "description": "Product subscriptions limit"
         }
-      }
+      },
  "productState": {
         "type": "string",
          "defaultValue": "published",
