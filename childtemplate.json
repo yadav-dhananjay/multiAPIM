@@ -181,8 +181,42 @@
         "metadata": {
           "description": "http2 protocol support"
         }
+      },
+       "productDisplayName": {
+        "type": "string",
+         "defaultValue": "RPAFunctionApp",
+        "metadata": {
+          "description": "Product display name."
+        }
+      },
+ "productSubscriptionRequired": {
+        "type": "string",
+         "defaultValue": "true",
+        "metadata": {
+          "description": "Product subscription reguired or not."
+        }
+      },
+ "approvalRequired": {
+        "type": "string",
+         "defaultValue": "true",
+        "metadata": {
+          "description": "Is approval required"
+        }
       }
-      
+ "subscriptionsLimit": {
+        "type": "string",
+         "defaultValue": "500",
+        "metadata": {
+          "description": "Product subscriptions limit"
+        }
+      }
+ "productState": {
+        "type": "string",
+         "defaultValue": "published",
+        "metadata": {
+          "description": "Product state"
+        }
+      }
       
     },
    "variables": {
@@ -308,6 +342,43 @@
 	    "dependsOn":["[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"],
             "properties": {
                 "value": "<!--\r\n    IMPORTANT:\r\n    - Policy elements can appear only within the &lt;inbound&gt;, &lt;outbound&gt;, &lt;backend&gt; section elements.\r\n    - Only the &lt;forward-request&gt; policy element can appear within the &lt;backend&gt; section element.\r\n    - To apply a policy to the incoming request (before it is forwarded to the backend service), place a corresponding policy element within the &lt;inbound&gt; section element.\r\n    - To apply a policy to the outgoing response (before it is sent back to the caller), place a corresponding policy element within the &lt;outbound&gt; section element.\r\n    - To add a policy position the cursor at the desired insertion point and click on the round button associated with the policy.\r\n    - To remove a policy, delete the corresponding policy statement from the policy document.\r\n    - Position the &lt;base&gt; element within a section element to inherit all policies from the corresponding section element in the enclosing scope.\r\n    - Remove the &lt;base&gt; element to prevent inheriting policies from the corresponding section element in the enclosing scope.\r\n    - Policies are applied in the order of their appearance, from the top down.\r\n-->\r\n<policies>\r\n  <inbound />\r\n  <backend>\r\n    <forward-request follow-redirects=\"false\" />\r\n  </backend>\r\n  <outbound />\r\n  <on-error />\r\n</policies>",
+                "format": "xml"
+            }
+        },
+	    {
+            "type": "Microsoft.ApiManagement/service/products",
+            "apiVersion": "2021-08-01",
+            "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('productDisplayName'))]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+            ],
+            "properties": {
+                "displayName": parameters('productDisplayName'),
+                "subscriptionRequired": bool(parameters('productSubscriptionRequired')),
+                "approvalRequired": bool(parameters('approvalRequired')),
+                "subscriptionsLimit": int(parameters('subscriptionsLimit')),
+                "state": parameters('productState')
+            }
+        },
+	 {
+            "type": "Microsoft.ApiManagement/service/products/groups",
+            "apiVersion": "2021-08-01",
+            "name": "[concat(parameters('apiManagementServiceName'), '/RPAFunctionApp/administrators')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), parameters('productDisplayName'))]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+            ]
+        },
+		{
+            "type": "Microsoft.ApiManagement/service/products/policies",
+            "apiVersion": "2021-08-01",
+            "name": "[concat(parameters('apiManagementServiceName'), '/', parameters('productDisplayName'),'/policy')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.ApiManagement/service/products', parameters('apiManagementServiceName'), parameters('productDisplayName'))]",
+                "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
+            ],
+            "properties": {
+                "value": "<policies>\r\n  <inbound>\r\n    <base />\r\n    <rate-limit calls=\"20\" renewal-period=\"90\" />\r\n  </inbound>\r\n</policies>",
                 "format": "xml"
             }
         }
