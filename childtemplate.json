@@ -256,7 +256,7 @@
         "name": "[parameters('apiManagementServiceName')]",
         "type": "Microsoft.ApiManagement/service",
         "location": "[parameters('location')]",
-	"tags":   "[array(parameters('tags'))]"     
+	"tags":   "[parameters('tags')]" ,    
          "identity": {
                 "type": "SystemAssigned"
                } ,      
