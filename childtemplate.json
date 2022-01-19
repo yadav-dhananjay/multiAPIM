@@ -352,12 +352,12 @@
             "dependsOn": [
                 "[resourceId('Microsoft.ApiManagement/service', parameters('apiManagementServiceName'))]"
             ],
-            "properties": {
-                "displayName": parameters('productDisplayName'),
-                "subscriptionRequired": bool(parameters('productSubscriptionRequired')),
-                "approvalRequired": bool(parameters('approvalRequired')),
-                "subscriptionsLimit": int(parameters('subscriptionsLimit')),
-                "state": parameters('productState')
+           "properties": {
+                "displayName": "[parameters('productDisplayName')"],
+                "subscriptionRequired": "[bool(parameters('productSubscriptionRequired'))"],
+                "approvalRequired": "[bool(parameters('approvalRequired'))"],
+                "subscriptionsLimit": "[int(parameters('subscriptionsLimit'))"],
+                "state": "[parameters('productState')"]
             }
         },
 	 {
